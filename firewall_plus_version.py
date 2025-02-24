@@ -44,20 +44,39 @@ def handle_client(conn, addr):
         print(f"Connection closed from {addr}")
 
 def open_firewall_port():
-    """Opens TCP port 9100 in the Windows firewall."""
-    command = [
+    """Opens TCP port 9100 in the Windows firewall, removing existing rule if present."""
+    reabriu = False
+    rule_name = f"wnk_abrir_porta_{TCP_PORT}"
+    delete_command = [
+        "netsh", "advfirewall", "firewall", "delete", "rule",
+        f"name={rule_name}"
+    ]
+    add_command = [
         "netsh", "advfirewall", "firewall", "add", "rule",
-        f"name=wnk_abrir_porta_{TCP_PORT}",
+        f"name={rule_name}",
         "dir=in",
         "action=allow",
         "protocol=TCP",
         f"localport={TCP_PORT}"
     ]
     try:
-        subprocess.run(command, check=True)
-        print(f"Porta {TCP_PORT} aberta com sucesso")
+        # Delete the existing rule (if it exists)
+        subprocess.run(delete_command, check=True)
+        print(f"Aviso: regra já existente, removendo regra da porta {TCP_PORT}")
+        reabriu = True
+    except subprocess.CalledProcessError:
+        # If deletion fails, it might be because the rule didn't exist.
+        pass
+
+    try:
+        # Now add the new rule.
+        subprocess.run(add_command, check=True)
+        if reabriu:
+            print(f"Sucesso: porta {TCP_PORT} reaberta.")
+        else:
+            print(f"Sucesso: porta {TCP_PORT} aberta.")
     except subprocess.CalledProcessError as e:
-        print(f"Falha a abrir porta {TCP_PORT}, erro: ", e)
+        print(f"Erro: falha ao abrir porta {TCP_PORT}", e)
 
 def main():
     open_firewall_port()
@@ -75,7 +94,7 @@ def main():
                 print("Server is shutting down.")
                 break
             except Exception as e:
-                print(f"Error: {e}")
+                print(f"Erro: {e}")
 
 if __name__ == '__main__':
     main()
