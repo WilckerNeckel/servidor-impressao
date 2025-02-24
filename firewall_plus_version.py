@@ -7,7 +7,7 @@ TCP_PORT = 9100         # Port to listen on
 BUFFER_SIZE = 1024      # Buffer size for incoming data
 
 # Replace with the exact printer name as it appears in Windows
-PRINTER_NAME = 'COZINHA'
+PRINTER_NAME = 'POS_USB'
 
 def send_to_printer(data, printer_name):
     """Send raw data to the specified printer using Windows printing APIs."""
