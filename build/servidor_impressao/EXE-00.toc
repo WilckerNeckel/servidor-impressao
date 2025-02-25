@@ -103,7 +103,7 @@
  [],
  False,
  False,
- 1740445295,
+ 1740445679,
  [('run.exe',
    'C:\\Users\\wilck\\OneDrive\\Documentos\\servidor_impressao\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
    'EXECUTABLE')],
