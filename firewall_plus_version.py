@@ -105,6 +105,8 @@ def main():
         server_socket.bind((TCP_IP, TCP_PORT))
         server_socket.listen(5)
         print(f"Listening on {TCP_IP}:{TCP_PORT}...")
+        print(f"nome da impressora {PRINTER_NAME}")
+        logging.info(f"nome da impressora {PRINTER_NAME}")
         logging.info(f"Listening on {TCP_IP}:{TCP_PORT}...")
         while True:
             try:
